@@ -1,0 +1,27 @@
+{
+    "name": "daniesy/rodels",
+    "description": "Remote models for Laravel",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Danut Florian",
+            "email": "daniesy@me.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Daniesy\\Rodels\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Daniesy\\Rodels\\RodelsServiceProvider"
+            ],
+            "aliases": {
+                "Remote": "Daniesy\\Rodels\\Facade"
+            }
+        }
+    },
+    "require": {}
+}
