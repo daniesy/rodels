@@ -60,6 +60,21 @@ class Request
     }
 
     /**
+     * Add headers to request.
+     *
+     * @param array $headers
+     * @return Request
+     */
+    public function setHeaders(array $headers = []): self
+    {
+        foreach ($headers as $key => $value) {
+            $this->setHeader($key, $value);
+        }
+
+        return $this;
+    }
+
+    /**
      * Make a get request to the given endpoint
      *
      * @param string $endpoint
