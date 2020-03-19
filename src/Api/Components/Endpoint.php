@@ -30,12 +30,12 @@ abstract class Endpoint
         $this->authenticator = $authenticator;
     }
 
-    public function authRequest(): Request
+    public function authRequest(array $headers = []): Request
     {
         if (!$this->authenticator) {
-            return $this->request;
+            return $this->request->setHeaders($headers);
         }
 
-        return $this->authenticator->addAuth(clone $this->request);
+        return $this->authenticator->addAuth(clone $this->request->setHeaders($headers));
     }
 }
