@@ -19,6 +19,7 @@ class RodelsServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->registerAuthenticator();
         if ($this->app->runningInConsole()) {
             $this->commands([
                 MakeRodel::class,
@@ -47,15 +48,17 @@ class RodelsServiceProvider extends ServiceProvider
 
         }
 
-        $this->app->bind(Remote::class, function () { return new Remote($this->getAuthenticator()); });
+        $this->app->bind(Remote::class, function () { 
+            return new Remote(
+                $this->app['rodels.auth']->driver()
+            ); 
+        });
     }
 
-    private function getAuthenticator() :? Authenticator
+    private function registerAuthenticator()
     {
-        switch (config('rodels.auth')) {
-            case 'key':
-                return new KeyAuthenticator;
-        }
-        return null;
+        $this->app->singleton('rodels.auth', function() {
+            return new AuthManager($this->app);
+        });
     }
 }
