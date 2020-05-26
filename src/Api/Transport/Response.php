@@ -33,7 +33,7 @@ class Response
         $this->response = $response;
         $this->http_code = $httpClient->getHttpCode();
 
-        if (is_string($response)) {
+        if (is_string($response) && !!$response) {
             $this->response = $this->decodeString($response);
         }
     }
