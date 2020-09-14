@@ -97,13 +97,13 @@ class RodelCollection implements \JsonSerializable, \ArrayAccess, \IteratorAggre
      */
     public function totalItems(): int
     {
-        $total = intval($this->getMeta("pagination.total", null));
+        $total = $this->getMeta("pagination.total", null);
 
         if (is_null($total)) {
             $this->setMeta("pagination.total", $total = $this->items->count());
         }
 
-        return $total;
+        return intval($total);
     }
 
     /**
