@@ -22,6 +22,6 @@ class AuthManager extends Manager
      */
     public function getDefaultDriver()
     {
-        return $this->app['config']['rodels.auth'];
+        return $this->container['config']['rodels.auth'];
     }
 }
