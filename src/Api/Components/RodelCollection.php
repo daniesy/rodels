@@ -3,7 +3,7 @@
 
 namespace Daniesy\Rodels\Api\Components;
 
-
+use Arr;
 use Daniesy\Rodels\Api\Exceptions\InvalidModelException;
 use Daniesy\Rodels\Api\Transport\Response;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -75,7 +75,7 @@ class RodelCollection implements \JsonSerializable, \ArrayAccess, \IteratorAggre
      */
     public function getMeta($key, $default = null)
     {
-        return array_get($this->meta, $key, $default);
+        return Arr::get($this->meta, $key, $default);
     }
 
     /**
@@ -87,7 +87,7 @@ class RodelCollection implements \JsonSerializable, \ArrayAccess, \IteratorAggre
      */
     private function setMeta($key, $value)
     {
-        return array_set($this->meta, $key, $value);
+        return Arr::set($this->meta, $key, $value);
     }
 
     /**
@@ -182,7 +182,7 @@ class RodelCollection implements \JsonSerializable, \ArrayAccess, \IteratorAggre
      */
     public function __get(string $key)
     {
-        return array_get($this->meta, $key, null);
+        return Arr::get($this->meta, $key, null);
     }
 
 
