@@ -198,6 +198,10 @@ class RodelCollection implements \JsonSerializable, \ArrayAccess, \IteratorAggre
             return $item->toArray();
         });
 
+        if (empty($meta)) {
+            return compact('data');
+        }
+        
         return compact('meta', 'data');
     }
 
