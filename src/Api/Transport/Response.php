@@ -13,7 +13,21 @@ class Response implements \JsonSerializable
      *
      * @var string
      */
+    private $response_raw;
+
+     /**
+     * Contains the raw response
+     *
+     * @var string
+     */
     private $response;
+
+    /**
+     * Http code.
+     *
+     * @var array
+     */
+    private $headers;
 
     /**
      * Http code.
@@ -28,12 +42,13 @@ class Response implements \JsonSerializable
      * @param string $response
      * @param HttpClient $httpClient
      */
-    public function __construct($response, HttpClient $httpClient)
+    public function __construct($response, array $headers, HttpClient $httpClient)
     {
-        $this->response = $response;
+        $this->response_raw = $response;
+        $this->headers = $headers;
         $this->http_code = $httpClient->getHttpCode();
 
-        if (is_string($response) && !!$response) {
+        if (is_string($response) && !!$response && $this->isJson()) {
             $this->response = $this->decodeString($response);
         }
     }
@@ -58,6 +73,12 @@ class Response implements \JsonSerializable
     public function getResponseCode()
     {
         return $this->http_code;
+    }
+
+    public function isJson(): bool
+    {
+        $header = $this->headers['Content-Type'] ?: "";
+        return strstr($header, "json");
     }
 
     /**
@@ -96,7 +117,12 @@ class Response implements \JsonSerializable
     {
         return isset($this->response[$key]);
     }
-    
+
+    public function raw(): string
+    {
+        return $this->response_raw;
+    }
+
     /**
      * Specify data which should be serialized to JSON
      * @link https://php.net/manual/en/jsonserializable.jsonserialize.php

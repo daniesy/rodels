@@ -23,12 +23,6 @@ class Request
      * @var HttpClient
      */
     private $httpClient;
-    /**
-     * Array with the headers from the last request
-     *
-     * @var array
-     */
-    private $response_headers;
 
     /**
      * Request constructor.
@@ -141,16 +135,6 @@ class Request
     }
 
     /**
-     * Return the headers from the last request
-     *
-     * @return array
-     */
-    public function getResponseHeaders()
-    {
-        return $this->response_headers;
-    }
-
-    /**
      * Execute the http request
      *
      * @param string $method
@@ -173,7 +157,7 @@ class Request
         }
 
         // Initiate the response
-        $response = new Response($response_data, $this->httpClient);
+        $response = new Response($response_data, $response_headers, $this->httpClient);
 
         // Check the response code
         if ($response->getResponseCode() >= 400) {
@@ -182,9 +166,6 @@ class Request
             }
             throw new ApiException($response->getResponseCode(), [$response->error ?? $response->errors]);
         }
-
-        // Set headers for later inspection
-        $this->response_headers = $response_headers;
 
         // Return the response
         return $response;
