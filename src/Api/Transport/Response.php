@@ -60,7 +60,7 @@ class Response implements \JsonSerializable
      *
      * @return array
      */
-    private function decodeString(string $response): array
+    private function decodeString(string $response)
     {
         return json_decode($response, true);
     }
