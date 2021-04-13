@@ -77,7 +77,10 @@ class Response implements \JsonSerializable
 
     public function isJson(): bool
     {
-        $header = $this->headers['Content-Type'] ?: "";
+        if (!isset($this->headers['Content-Type'])) {
+            return false;
+        }
+        $header = $this->headers['Content-Type'];
         return strstr($header, "json");
     }
 
