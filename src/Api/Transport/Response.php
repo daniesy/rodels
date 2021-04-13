@@ -48,7 +48,7 @@ class Response implements \JsonSerializable
         $this->headers = $headers;
         $this->http_code = $httpClient->getHttpCode();
 
-        if (is_string($response) && !!$response && $this->isJson()) {
+        if (is_string($response) && !!$response) {
             $this->response = $this->decodeString($response);
         }
     }
