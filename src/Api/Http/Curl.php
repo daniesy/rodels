@@ -20,8 +20,8 @@ class Curl extends HttpClient
         curl_setopt_array($curl, [
             CURLOPT_URL => $url,
             CURLOPT_HTTPHEADER => $headers,
-            CURLOPT_CONNECTTIMEOUT => 20,
-            CURLOPT_TIMEOUT => 90,
+            CURLOPT_CONNECTTIMEOUT => config('rodels.connection_timeout'),
+            CURLOPT_TIMEOUT => config('rodels.connection_timeout'),
             CURLOPT_RETURNTRANSFER => 1,
             CURLOPT_SSL_VERIFYPEER => 0,
             CURLOPT_SSL_VERIFYHOST => 0,
