@@ -3,25 +3,24 @@
 
 namespace Daniesy\Rodels\Api\Http;
 
+use Illuminate\Support\Facades\Config;
+
 
 class Curl extends HttpClient
 {
 
-    public function run(string $method, string $url, array $parameters = [], array $headers = []): array
+    public function run(string $method, string $url, array $payload = []): array
     {
         $this->errors = null;
 
         $curl = curl_init();
 
-        // Merge global and request headers
-        $headers = array_merge(array_values($this->headers), $headers);
-
         // Set options
         curl_setopt_array($curl, [
             CURLOPT_URL => $url,
-            CURLOPT_HTTPHEADER => $headers,
-            CURLOPT_CONNECTTIMEOUT => config('rodels.connection_timeout'),
-            CURLOPT_TIMEOUT => config('rodels.connection_timeout'),
+            CURLOPT_HTTPHEADER => $this->headers,
+            CURLOPT_CONNECTTIMEOUT => Config::get('rodels.connection_timeout'),
+            CURLOPT_TIMEOUT => Config::get('rodels.connection_timeout'),
             CURLOPT_RETURNTRANSFER => 1,
             CURLOPT_SSL_VERIFYPEER => 0,
             CURLOPT_SSL_VERIFYHOST => 0,
@@ -38,7 +37,7 @@ class Curl extends HttpClient
                 curl_setopt_array($curl, [
                     CURLOPT_CUSTOMREQUEST => $method,
                     CURLOPT_POST => true,
-                    CURLOPT_POSTFIELDS => $this->pack($parameters),
+                    CURLOPT_POSTFIELDS => $this->pack($payload),
                 ]);
                 break;
 
@@ -73,7 +72,7 @@ class Curl extends HttpClient
         return [$body, $this->parseHeaders($header)];
     }
 
-    public function pack(array $params)
+    public function pack(array $params): false|string
     {
         return json_encode($params);
     }

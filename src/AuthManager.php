@@ -10,17 +10,17 @@ use Illuminate\Support\Manager;
 class AuthManager extends Manager
 {
 
-    public function createKeyDriver()
+    public function createKeyDriver(): KeyAuthenticator
     {
         return new KeyAuthenticator;
     }
 
     /**
-     * Get the default mail driver name.
+     * Get the default auth driver name.
      *
      * @return string
      */
-    public function getDefaultDriver()
+    public function getDefaultDriver(): string
     {
         return $this->container['config']['rodels.auth'];
     }

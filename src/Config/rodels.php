@@ -49,6 +49,29 @@ return [
 
     'connection_timeout' => 90,
 
+    'cache' => [
+        /*
+        |--------------------------------------------------------------------------
+        | The cache method
+        |--------------------------------------------------------------------------
+        |
+        | You can set the cache method that will be used to cache responses from the API.
+        |
+        | Supported: "file", "database", "redis", "null"
+        */
+        'table' => env('RODELS_CACHE_TABLE', 'rodels_cache'),
+
+        /*
+        |--------------------------------------------------------------------------
+        | Cache Time-To-Live (TTL)
+        |--------------------------------------------------------------------------
+        |
+        | The number of seconds to cache the API responses.
+        |
+        */
+        'ttl' => env('RODELS_CACHE_TTL', 3600),
+    ],
+
     /*
      |--------------------------------------------------------------------------
      | Authentication configuration
@@ -60,6 +83,6 @@ return [
 
     'key' => [
         'name' => 'api-key',
-        'value' => env('RODELS_KEY')
+        'value' => env('RODELS_KEY'),
     ],
 ];

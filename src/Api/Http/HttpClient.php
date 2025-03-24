@@ -9,31 +9,29 @@ abstract class HttpClient
      *
      * @var int
      **/
-    protected $http_code = 200;
+    protected int $http_code = 200;
 
     /**
      * Last request error string.
      *
-     * @var string
+     * @var string|null
      **/
-    protected $errors = null;
+    protected ?string $errors = null;
 
     /**
      * Array containing headers from last performed request.
      *
      * @var array
      */
-    protected $headers = [
+    protected array $headers = [
         'Content-Type: application/json',
         'Accept: application/json',
     ];
 
     /**
      * Add multiple headers to request.
-     *
-     * @param array $values
      */
-    public function setHeaders(array $values)
+    public function setHeaders(array $values): void
     {
         foreach ($values as $key => $value) {
             $this->setHeader($key, $value);
@@ -46,17 +44,18 @@ abstract class HttpClient
      * @param string $key
      * @param string $value
      */
-    public function setHeader($key, $value)
+    public function setHeader(string $key, string $value): void
     {
         $this->headers[$key] = "{$key}: {$value}";
     }
 
+    public function getHeaders(): array
+    {
+        return $this->headers;
+    }
+
     /**
      * Parse string headers into array
-     *
-     * @param string $headers
-     *
-     * @return array
      */
     protected function parseHeaders(string $headers): array
     {
@@ -80,7 +79,7 @@ abstract class HttpClient
      *
      * @return bool
      */
-    public function hasErrors()
+    public function hasErrors(): bool
     {
         return is_null($this->errors) === false;
     }
@@ -88,9 +87,9 @@ abstract class HttpClient
     /**
      * Get curl errors
      *
-     * @return string
+     * @return string|null
      */
-    public function getErrors()
+    public function getErrors(): ?string
     {
         return $this->errors;
     }
@@ -100,7 +99,7 @@ abstract class HttpClient
      *
      * @return int
      */
-    public function getHttpCode()
+    public function getHttpCode(): int
     {
         return $this->http_code;
     }
@@ -108,15 +107,12 @@ abstract class HttpClient
     /**
      * Execute the request
      *
-     * @param  string $method
-     * @param  string $url
-     * @param  array  $parameters
-     * @param  array  $headers
-     *
+     * @param string $method
+     * @param string $url
+     * @param array $payload
      * @return array
      */
-    public abstract function run(string $method, string $url, array $parameters = [], array $headers = []): array;
+    abstract public function run(string $method, string $url, array $payload = []): array;
 
-    public abstract function pack(array $params);
-
+    abstract public function pack(array $params);
 }

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Daniesy\Rodels\Api\Transport;
-
 
 use Daniesy\Rodels\Api\Http\HttpClient;
 
@@ -10,113 +8,86 @@ class Response implements \JsonSerializable
 {
     /**
      * Contains the raw response
-     *
-     * @var string
      */
-    private $response_raw;
+    private string $response_raw;
 
-     /**
-     * Contains the raw response
-     *
-     * @var string
+    /**
+     * Contains the decoded response
      */
-    private $response;
+    private string|array $response;
+
+    /**
+     * Http headers.
+     */
+    private array $headers;
 
     /**
      * Http code.
-     *
-     * @var array
      */
-    private $headers;
-
-    /**
-     * Http code.
-     *
-     * @var int
-     */
-    private $http_code;
+    private int $http_code;
+    private bool $isCached = false;
 
     /**
      * Create a new response instance
-     *
-     * @param string $response
-     * @param HttpClient $httpClient
      */
-    public function __construct($response, array $headers, HttpClient $httpClient)
+    public function __construct(string $response, array $headers, ?HttpClient $httpClient = null, bool $isCached = false)
     {
         $this->response_raw = $response;
         $this->headers = $headers;
-        $this->http_code = $httpClient->getHttpCode();
+        $this->http_code = $httpClient?->getHttpCode() ?? 0;
 
-        if (is_string($response) && !!$response) {
-            $this->response = $this->decodeString($response);
-        }
+        $this->response = $this->decodeString($response);
+        $this->isCached = $isCached;
     }
 
     /**
      * Decode the string to an array
-     *
-     * @param string $response
-     *
-     * @return array
      */
-    private function decodeString(string $response)
+    private function decodeString(string $response): array|string
     {
-        return json_decode($response, true);
+        $decoded = json_decode($response, true);
+
+        return json_last_error() === JSON_ERROR_NONE ? $decoded : $response;
     }
 
     /**
      * Get the response code from the request
-     *
-     * @return int
      */
-    public function getResponseCode()
+    public function getResponseCode(): int
     {
         return $this->http_code;
     }
 
     public function isJson(): bool
     {
-        if (!isset($this->headers['Content-Type'])) {
-            return false;
-        }
-        $header = $this->headers['Content-Type'];
-        return strstr($header, "json");
+        return isset($this->headers['Content-Type']) && str_contains($this->headers['Content-Type'], 'json');
+    }
+
+    public function isCached(): bool
+    {
+        return $this->isCached;
     }
 
     /**
      * Return the requested key data
-     *
-     * @param string $key
-     *
-     * @return array|null
      */
-    public function __get($key)
+    public function __get(string $key): mixed
     {
-        return $this->__isset($key) ? $this->response[$key] : null;
+        return $this->response[$key] ?? null;
     }
 
     /**
      * Set requested key data
-     *
-     * @param string $key
-     * @param string $value
      */
-    public function __set($key, $value)
+    public function __set(string $key, mixed $value): void
     {
-        if ($this->__isset($key)) {
-            $this->response[$key] = $value;
-        }
+        $this->response[$key] = $value;
     }
 
     /**
      * Return if the key is set
-     *
-     * @param string $key
-     *
-     * @return boolean
      */
-    public function __isset($key)
+    public function __isset(string $key): bool
     {
         return isset($this->response[$key]);
     }
@@ -128,13 +99,17 @@ class Response implements \JsonSerializable
 
     /**
      * Specify data which should be serialized to JSON
-     * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     * @since 5.4
+     *
+     * @return string|array data which can be serialized by <b>json_encode</b>,
+     *                      which is a value of any type other than a resource.
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): string|array
     {
         return $this->response;
+    }
+
+    public function headers(): array
+    {
+        return $this->headers;
     }
 }

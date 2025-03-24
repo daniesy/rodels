@@ -1,27 +1,49 @@
 {
-    "name": "daniesy/rodels",
-    "description": "Remote models for Laravel",
-    "type": "library",
-    "authors": [
-        {
-            "name": "Danut Florian",
-            "email": "daniesy@me.com"
-        }
-    ],
-    "autoload": {
-        "psr-4": {
-            "Daniesy\\Rodels\\": "src/"
-        }
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Daniesy\\Rodels\\RodelsServiceProvider"
-            ],
-            "aliases": {
-                "Remote": "Daniesy\\Rodels\\Facade\\Remote"
-            }
-        }
-    },
-    "require": {}
+  "name": "daniesy/rodels",
+  "description": "Remote models for Laravel",
+  "type": "library",
+  "require": {
+    "php": "^8.3",
+    "ext-curl": "*"
+  },
+  "authors": [
+    {
+      "name": "Danut Florian",
+      "email": "hello@danutflorian.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Daniesy\\Rodels\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Daniesy\\Rodels\\RodelsServiceProvider"
+      ],
+      "aliases": {
+        "Remote": "Daniesy\\Rodels\\Facade\\Remote"
+      }
+    }
+  },
+  "require-dev": {
+    "laravel/pint": "^1.21",
+    "pestphp/pest": "^3.7",
+    "orchestra/testbench": "^10.1",
+    "illuminate/support": "^v11.44.2|^v12.0.0",
+    "illuminate/http": "^11.44|^12.0",
+    "illuminate/database": "^11.44|^12.0",
+    "illuminate/routing": "^11.44|^12.0"
+  },
+  "config": {
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    }
+  }
 }
