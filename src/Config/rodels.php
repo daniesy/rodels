@@ -52,12 +52,11 @@ return [
     'cache' => [
         /*
         |--------------------------------------------------------------------------
-        | The cache method
+        | The cache table
         |--------------------------------------------------------------------------
         |
-        | You can set the cache method that will be used to cache responses from the API.
+        | The name of the table to store the cached requests.
         |
-        | Supported: "file", "database", "redis", "null"
         */
         'table' => env('RODELS_CACHE_TABLE', 'rodels_cache'),
 
