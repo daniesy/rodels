@@ -19,7 +19,7 @@ class Request
 
     public function __construct(string $host, HttpClient $httpClient, ?CacheService $cache = null)
     {
-        $this->host = rtrim($host, '/').'/';
+        $this->host = rtrim($host, '/') . '/';
         $this->httpClient = $httpClient;
         $this->cache = $cache;
     }
@@ -44,7 +44,7 @@ class Request
     {
         return $this->execute(
             method: 'GET',
-            endpoint: ! empty($parameters) ? $endpoint : $endpoint.'?'.http_build_query($parameters),
+            endpoint: empty($parameters) ? $endpoint : $endpoint . '?' . http_build_query($parameters),
             preventCache: $preventCache
         );
     }
@@ -83,24 +83,24 @@ class Request
     {
         return $this->execute(
             method: 'DELETE',
-            endpoint: ! empty($parameters) ? $endpoint : $endpoint.'?'.http_build_query($parameters),
+            endpoint: !empty($parameters) ? $endpoint : $endpoint . '?' . http_build_query($parameters),
             preventCache: $preventCache
         );
     }
 
     private function shouldCache(string $method, bool $preventCache): bool
     {
-        return in_array($method, ['GET', 'HEAD']) && ! $preventCache;
+        return in_array($method, ['GET', 'HEAD']) && !$preventCache;
     }
 
     private function shouldClearCache(string $method): bool
     {
-        return ! in_array($method, ['GET', 'HEAD']);
+        return !in_array($method, ['GET', 'HEAD']);
     }
 
     private function execute(string $method, string $endpoint, array $payload = [], bool $preventCache = false): Response
     {
-        $url = $this->host.$endpoint;
+        $url = $this->host . $endpoint;
         if ($this->shouldCache($method, $preventCache) && $cachedResponse = $this->cache?->get($url, $this->httpClient->getHeaders())) {
             return $cachedResponse;
         }
@@ -137,7 +137,7 @@ class Request
         $errors = $response->errors;
 
         foreach ($errors as $attr => $messages) {
-            $errors[$attr] = array_map(fn ($error) => trans($error, ['attribute' => $attr]), $messages);
+            $errors[$attr] = array_map(fn($error) => trans($error, ['attribute' => $attr]), $messages);
         }
 
         if ($request->ajax() || $request->wantsJson()) {
