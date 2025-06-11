@@ -57,6 +57,12 @@ class CacheService implements Store
 
     private function generateCacheTime(): string
     {
-        return date('Y-m-d H:i:s', strtotime('-5 minutes'));
+        $ttl = Config::get('rodels.cache.ttl', 300); // Default to 5 minutes if not set
+        
+        if ($ttl <= 0) {
+            return date('Y-m-d H:i:s', strtotime('-1 second')); // Cache is considered expired
+        }
+        
+        return date('Y-m-d H:i:s', strtotime("-{$ttl} seconds"));
     }
 }
