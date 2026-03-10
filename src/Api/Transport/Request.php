@@ -83,7 +83,7 @@ class Request
     {
         return $this->execute(
             method: 'DELETE',
-            endpoint: !empty($parameters) ? $endpoint : $endpoint . '?' . http_build_query($parameters),
+            endpoint: empty($parameters) ? $endpoint : $endpoint . '?' . http_build_query($parameters),
             preventCache: $preventCache
         );
     }
