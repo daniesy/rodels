@@ -20,7 +20,7 @@ class MakeEndpoint extends Command
      *
      * @var string
      */
-    protected $description = 'Make am endpoint';
+    protected $description = 'Make an endpoint';
 
     /**
      * Create a new command instance.
