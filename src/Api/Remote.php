@@ -18,7 +18,7 @@ class Remote
     /**
      * Namespace for the endpoints
      */
-    protected string $endpointNamespace = "App\Endpoints";
+    protected string $endpointNamespace = 'App\Endpoints';
 
     /**
      * A reference to the request class which travels
