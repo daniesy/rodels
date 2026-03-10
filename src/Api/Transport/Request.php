@@ -137,7 +137,7 @@ class Request
         $errors = $response->errors ?? [];
 
         foreach ($errors as $attr => $messages) {
-            $errors[$attr] = array_map(fn($error) => trans($error, ['attribute' => $attr]), $messages);
+            $errors[$attr] = array_map(fn($error) => trans($error, ['attribute' => $attr]), (array) $messages);
         }
 
         if ($request->ajax() || $request->wantsJson()) {
