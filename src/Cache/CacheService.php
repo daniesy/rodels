@@ -4,7 +4,6 @@ namespace Daniesy\Rodels\Cache;
 
 use Daniesy\Rodels\Api\Cache\Store;
 use Daniesy\Rodels\Api\Transport\Response;
-use Illuminate\Database\RecordNotFoundException;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 
@@ -35,16 +34,12 @@ class CacheService implements Store
 
     public function get(string $url, array $headers): ?Response
     {
-        try {
-            $cached = DB::table($this->table)
-                ->where($this->buildCacheKey($url, $headers))
-                ->where('updated_at', '>', $this->generateCacheTime())
-                ->firstOrFail();
+        $cached = DB::table($this->table)
+            ->where($this->buildCacheKey($url, $headers))
+            ->where('updated_at', '>', $this->generateCacheTime())
+            ->first();
 
-            return new Response($cached->responseRaw, [], null, true);
-        } catch (RecordNotFoundException $exception) {
-            return null;
-        }
+        return $cached ? new Response($cached->responseRaw, [], null, true) : null;
     }
 
     private function buildCacheKey(string $url, array $headers): array
