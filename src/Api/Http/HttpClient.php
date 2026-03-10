@@ -24,8 +24,8 @@ abstract class HttpClient
      * @var array
      */
     protected array $headers = [
-        'Content-Type: application/json',
-        'Accept: application/json',
+        'Content-Type' => 'application/json',
+        'Accept' => 'application/json',
     ];
 
     /**
@@ -40,18 +40,24 @@ abstract class HttpClient
 
     /**
      * Add header to request.
-     *
-     * @param string $key
-     * @param string $value
      */
     public function setHeader(string $key, string $value): void
     {
-        $this->headers[$key] = "{$key}: {$value}";
+        $this->headers[$key] = $value;
     }
 
     public function getHeaders(): array
     {
         return $this->headers;
+    }
+
+    public function getFormattedHeaders(): array
+    {
+        return array_map(
+            fn($key, $value) => "{$key}: {$value}",
+            array_keys($this->headers),
+            $this->headers
+        );
     }
 
     /**

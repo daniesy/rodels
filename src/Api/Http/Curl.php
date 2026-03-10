@@ -18,7 +18,7 @@ class Curl extends HttpClient
         // Set options
         curl_setopt_array($curl, [
             CURLOPT_URL => $url,
-            CURLOPT_HTTPHEADER => $this->headers,
+            CURLOPT_HTTPHEADER => $this->getFormattedHeaders(),
             CURLOPT_CONNECTTIMEOUT => Config::get('rodels.connection_timeout'),
             CURLOPT_TIMEOUT => Config::get('rodels.connection_timeout'),
             CURLOPT_RETURNTRANSFER => 1,
