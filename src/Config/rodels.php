@@ -51,15 +51,15 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Disable SSL verification
+    | SSL verification
     |--------------------------------------------------------------------------
     |
-    | Set to true to disable SSL certificate verification. This should only
-    | be used in development or with trusted internal APIs.
+    | Enable or disable SSL certificate verification. Set to false only
+    | in development or with trusted internal APIs.
     |
     */
 
-    'ssl_verify_disabled' => env('RODELS_SSL_VERIFY_DISABLED', false),
+    'ssl_verify' => env('RODELS_SSL_VERIFY', true),
 
     'cache' => [
         /*
