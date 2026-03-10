@@ -49,6 +49,18 @@ return [
 
     'connection_timeout' => 90,
 
+    /*
+    |--------------------------------------------------------------------------
+    | Disable SSL verification
+    |--------------------------------------------------------------------------
+    |
+    | Set to true to disable SSL certificate verification. This should only
+    | be used in development or with trusted internal APIs.
+    |
+    */
+
+    'ssl_verify_disabled' => env('RODELS_SSL_VERIFY_DISABLED', false),
+
     'cache' => [
         /*
         |--------------------------------------------------------------------------
