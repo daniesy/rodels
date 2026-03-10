@@ -73,6 +73,10 @@ class Response implements \JsonSerializable
      */
     public function __get(string $key): mixed
     {
+        if (!is_array($this->response)) {
+            return null;
+        }
+
         return $this->response[$key] ?? null;
     }
 
@@ -81,6 +85,10 @@ class Response implements \JsonSerializable
      */
     public function __set(string $key, mixed $value): void
     {
+        if (!is_array($this->response)) {
+            return;
+        }
+
         $this->response[$key] = $value;
     }
 
@@ -89,7 +97,7 @@ class Response implements \JsonSerializable
      */
     public function __isset(string $key): bool
     {
-        return isset($this->response[$key]);
+        return is_array($this->response) && isset($this->response[$key]);
     }
 
     public function raw(): string
