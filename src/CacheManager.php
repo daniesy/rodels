@@ -19,6 +19,6 @@ class CacheManager extends Manager
      */
     public function getDefaultDriver(): string
     {
-        return $this->container['config']['rodels.cache'];
+        return $this->container['config']['rodels.cache.driver'];
     }
 }
