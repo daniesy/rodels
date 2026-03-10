@@ -3,7 +3,7 @@
 
 namespace Daniesy\Rodels\Api\Components;
 
-use Arr;
+use Illuminate\Support\Arr;
 use Daniesy\Rodels\Api\Exceptions\InvalidModelException;
 use Daniesy\Rodels\Api\Transport\Response;
 use Illuminate\Pagination\LengthAwarePaginator;
