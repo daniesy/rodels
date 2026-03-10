@@ -4,7 +4,7 @@ namespace Daniesy\Rodels\Api\Transport;
 
 use Daniesy\Rodels\Api\Exceptions\ApiException;
 use Daniesy\Rodels\Api\Http\HttpClient;
-use Daniesy\Rodels\Cache\CacheService;
+use Daniesy\Rodels\Api\Cache\Store;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\UrlGenerator;
@@ -15,9 +15,9 @@ class Request
 
     private HttpClient $httpClient;
 
-    private ?CacheService $cache;
+    private ?Store $cache;
 
-    public function __construct(string $host, HttpClient $httpClient, ?CacheService $cache = null)
+    public function __construct(string $host, HttpClient $httpClient, ?Store $cache = null)
     {
         $this->host = rtrim($host, '/') . '/';
         $this->httpClient = $httpClient;
