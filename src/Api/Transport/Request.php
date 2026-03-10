@@ -134,7 +134,7 @@ class Request
     private function throwValidationException(Response $response): void
     {
         $request = app(\Illuminate\Http\Request::class);
-        $errors = $response->errors;
+        $errors = $response->errors ?? [];
 
         foreach ($errors as $attr => $messages) {
             $errors[$attr] = array_map(fn($error) => trans($error, ['attribute' => $attr]), $messages);
