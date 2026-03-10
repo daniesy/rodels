@@ -36,6 +36,7 @@ abstract class Endpoint
             return $this->request->setHeaders($headers);
         }
 
-        return $this->authenticator->addAuth(clone $this->request->setHeaders($headers));
+        $request = (clone $this->request)->setHeaders($headers);
+        return $this->authenticator->addAuth($request);
     }
 }
