@@ -99,43 +99,17 @@ class Rodel implements \JsonSerializable
      * @param $value
      * @return Carbon
      */
-    private function asDateTime($value):Carbon
+    private function asDateTime($value): Carbon
     {
-        // If the value is already a Carbon instance, we will just skip the rest of
-        // these checks since they will be a waste of time, and hinder performance
-        // when checking the field. We will just return the Carbon right away.
         if ($value instanceof Carbon) {
-            //
+            return $value;
         }
 
-        // If this value is an integer, we will assume it is a UNIX timestamp's value
-        // and format a Carbon object from this timestamp. This allows flexibility
-        // when defining your date fields as they might be UNIX timestamps here.
-        elseif (is_numeric($value)) {
-            $date = new Carbon();
-            return $date->setTimestamp($value);
+        if (is_numeric($value)) {
+            return Carbon::createFromTimestamp($value);
         }
 
-        // If the value is in simply year, month, day format, we will instantiate the
-        // Carbon instances from that format. Again, this provides for simple date
-        // fields on the database, while still supporting Carbonized conversion.
-        elseif (preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $value)) {
-            return Carbon::createFromFormat('Y-m-d', $value);
-        }
-
-        // If the value is in simply hour, minute, second format, we will instantiate the
-        // Carbon instances from that format.
-        elseif (preg_match('/^(\d{2}):(\d{2}):(\d{2})$/', $value)) {
-            return Carbon::createFromFormat('H:i:s', $value);
-        }
-
-        // If the value is in zulu format, we will instantiate the
-        // Carbon instances from that format.
-        elseif (preg_match('/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})Z$/', $value)) {
-            return Carbon::createFromFormat('Y-m-d\TH:i:s\Z', $value);
-        }
-
-        return new Carbon($value->format('Y-m-d H:i:s.u'), $value->getTimeZone());
+        return Carbon::parse($value);
     }
 
     /**
