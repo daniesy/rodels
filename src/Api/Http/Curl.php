@@ -51,7 +51,6 @@ class Curl extends HttpClient
         }
 
         // Make request
-        curl_setopt($curl, CURLOPT_HEADER, true);
         $response = curl_exec($curl);
 
         // Set HTTP response code
