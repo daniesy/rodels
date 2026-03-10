@@ -212,7 +212,7 @@ class RodelCollection implements \JsonSerializable, \ArrayAccess, \IteratorAggre
      */
     public function toJson(): string
     {
-        return json_encode($this->toArray(), true);
+        return json_encode($this->toArray());
     }
 
     /**
